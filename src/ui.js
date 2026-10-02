@@ -1,4 +1,6 @@
-import { ARITHMETIC_LEVELS } from "./data/levels.js";
+import {
+  ARITHMETIC_LEVELS
+} from "./data/levels.js";
 
 const REVIVE_COST = 20;
 const DAILY_TOTAL = 5;
@@ -16,18 +18,167 @@ export function render(root, game) {
   root.innerHTML = `
     <main class="shell" id="world">
 
+      <!-- IDENTITY SETUP -->
+      <section
+        class="identity-gate"
+        id="identityGate"
+        hidden
+      >
+        <div class="identity-card">
+
+          <p class="eyebrow">
+            WELCOME TO HISABATI
+          </p>
+
+          <h1>
+            What should we call you?
+          </h1>
+
+          <p>
+            Your name stays on this device
+            and helps make your journey personal.
+            No registration required.
+          </p>
+
+          <form id="identityForm">
+
+            <label for="identityName">
+              Display name
+            </label>
+
+            <input
+              id="identityName"
+              type="text"
+              maxlength="24"
+              autocomplete="nickname"
+              placeholder="Enter your name"
+              required
+            >
+
+            <button
+              class="primary-button"
+              type="submit"
+            >
+              Begin Journey
+            </button>
+
+            <p
+              class="identity-error"
+              id="identityError"
+              hidden
+            >
+              Please enter a valid name.
+            </p>
+
+          </form>
+
+        </div>
+      </section>
+
+      <!-- NAME EDIT MODAL -->
+      <section
+        class="profile-edit-overlay"
+        id="profileEditOverlay"
+        hidden
+      >
+        <div
+          class="profile-edit-card"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="editProfileTitle"
+        >
+
+          <div class="profile-edit-head">
+
+            <div>
+              <p class="eyebrow">
+                YOUR IDENTITY
+              </p>
+
+              <h2 id="editProfileTitle">
+                Change your name
+              </h2>
+            </div>
+
+            <button
+              id="closeProfileEdit"
+              class="quiet"
+              type="button"
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+          </div>
+
+          <form id="profileEditForm">
+
+            <label for="profileNameInput">
+              Display name
+            </label>
+
+            <input
+              id="profileNameInput"
+              type="text"
+              maxlength="24"
+              autocomplete="nickname"
+              placeholder="Enter your name"
+              required
+            >
+
+            <p
+              class="identity-error"
+              id="profileEditError"
+              hidden
+            ></p>
+
+            <div class="profile-edit-actions">
+
+              <button
+                id="cancelProfileEdit"
+                class="secondary-button"
+                type="button"
+              >
+                Cancel
+              </button>
+
+              <button
+                class="primary-button"
+                type="submit"
+              >
+                Save Name
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+      </section>
+
+      <!-- TOP BAR -->
       <header class="topbar">
 
         <div class="brand">
-          <div class="mark">H</div>
+
+          <div class="mark">
+            H
+          </div>
 
           <div>
-            <strong>HISABATI</strong>
-            <span>Mathematics adventure</span>
+            <strong>
+              HISABATI
+            </strong>
+
+            <span>
+              Mathematics adventure
+            </span>
           </div>
+
         </div>
 
         <nav class="main-nav">
+
           <button
             class="nav-button active"
             data-screen="home"
@@ -51,6 +202,7 @@ export function render(root, game) {
           >
             Profile
           </button>
+
         </nav>
 
         <button
@@ -63,9 +215,7 @@ export function render(root, game) {
 
       </header>
 
-
       <!-- HOME -->
-
       <section
         class="app-screen"
         id="homeScreen"
@@ -75,18 +225,22 @@ export function render(root, game) {
 
           <div>
 
-            <p class="eyebrow">
-              WELCOME BACK
+            <p
+              class="eyebrow"
+              id="homeWelcome"
+            >
+              WELCOME TO HISABATI
             </p>
 
-            <h1>
-              Continue your<br>
+            <h1 id="homeGreeting">
+              Begin your<br>
               mathematical journey.
             </h1>
 
             <p class="home-description">
-              Keep building your skills through adaptive
-              challenges designed around how you learn.
+              Keep building your skills through
+              adaptive challenges designed around
+              how you learn.
             </p>
 
           </div>
@@ -96,7 +250,6 @@ export function render(root, game) {
           </div>
 
         </section>
-
 
         <section class="home-current">
 
@@ -111,7 +264,9 @@ export function render(root, game) {
 
               <h2 id="homeLevelName"></h2>
 
-              <p id="homeLevelDescription"></p>
+              <p
+                id="homeLevelDescription"
+              ></p>
 
             </div>
 
@@ -129,13 +284,13 @@ export function render(root, game) {
 
           </div>
 
-
           <div class="home-progress-track">
+
             <span
               id="homeProgressFill"
             ></span>
-          </div>
 
+          </div>
 
           <div class="home-progress-bottom">
 
@@ -155,78 +310,37 @@ export function render(root, game) {
 
         </section>
 
-
         <section class="stat-grid">
 
           <article class="stat-card">
-
-            <small>
-              XP
-            </small>
-
-            <strong
-              id="homeXP"
-            ></strong>
-
-            <span
-              id="homeXPLabel"
-            ></span>
-
+            <small>XP</small>
+            <strong id="homeXP"></strong>
+            <span id="homeXPLabel"></span>
           </article>
 
-
           <article class="stat-card">
-
-            <small>
-              COINS
-            </small>
-
-            <strong
-              id="homeCoins"
-            ></strong>
-
+            <small>COINS</small>
+            <strong id="homeCoins"></strong>
             <span>
               Use coins for rewards and revival.
             </span>
-
           </article>
 
-
           <article class="stat-card">
-
-            <small>
-              STREAK
-            </small>
-
-            <strong
-              id="homeStreak"
-            ></strong>
-
+            <small>STREAK</small>
+            <strong id="homeStreak"></strong>
             <span>
               Consecutive correct answers.
             </span>
-
           </article>
 
-
           <article class="stat-card">
-
-            <small>
-              HEARTS
-            </small>
-
-            <strong
-              id="homeLives"
-            ></strong>
-
-            <span
-              id="homeLivesLabel"
-            ></span>
-
+            <small>HEARTS</small>
+            <strong id="homeLives"></strong>
+            <span id="homeLivesLabel"></span>
           </article>
 
         </section>
-
 
         <section class="home-columns">
 
@@ -247,8 +361,8 @@ export function render(root, game) {
               </h3>
 
               <p id="dailyHomeText">
-                Test your current skills and earn a
-                bonus for completing today's challenge.
+                Test your current skills and earn
+                a bonus for completing today's challenge.
               </p>
 
               <button
@@ -262,7 +376,6 @@ export function render(root, game) {
             </div>
 
           </article>
-
 
           <article class="feature-card reward-card">
 
@@ -294,7 +407,6 @@ export function render(root, game) {
 
         </section>
 
-
         <section class="home-course">
 
           <div class="section-head">
@@ -317,7 +429,6 @@ export function render(root, game) {
 
           </div>
 
-
           <div class="course-summary">
 
             <div class="course-icon">
@@ -331,7 +442,8 @@ export function render(root, game) {
               </strong>
 
               <span>
-                Numbers, calculations and everyday mathematics.
+                Numbers, calculations and
+                everyday mathematics.
               </span>
 
             </div>
@@ -350,9 +462,7 @@ export function render(root, game) {
 
       </section>
 
-
       <!-- JOURNEY -->
-
       <section
         class="app-screen"
         id="journeyScreen"
@@ -372,8 +482,9 @@ export function render(root, game) {
             </h1>
 
             <p>
-              Progress through chapters, master new skills
-              and face increasingly demanding challenges.
+              Progress through chapters,
+              master new skills and face
+              increasingly demanding challenges.
             </p>
 
           </div>
@@ -392,7 +503,6 @@ export function render(root, game) {
 
         </section>
 
-
         <section class="map-card">
 
           <div id="map"></div>
@@ -401,9 +511,7 @@ export function render(root, game) {
 
       </section>
 
-
       <!-- GAMEPLAY -->
-
       <section
         class="app-screen"
         id="gameplayScreen"
@@ -422,9 +530,7 @@ export function render(root, game) {
 
           <div class="game-level-info">
 
-            <span
-              id="gameChapter"
-            ></span>
+            <span id="gameChapter"></span>
 
             <strong
               id="gameLevelName"
@@ -438,7 +544,6 @@ export function render(root, game) {
           ></div>
 
         </section>
-
 
         <section class="hud">
 
@@ -472,7 +577,6 @@ export function render(root, game) {
 
         </section>
 
-
         <section
           class="challenge"
           id="challenge"
@@ -482,22 +586,15 @@ export function render(root, game) {
 
             <div>
 
-              <span
-                id="encounter"
-              ></span>
+              <span id="encounter"></span>
 
-              <span
-                id="skill"
-              ></span>
+              <span id="skill"></span>
 
-              <span
-                id="subskill"
-              ></span>
+              <span id="subskill"></span>
 
             </div>
 
           </div>
-
 
           <div
             class="boss-banner"
@@ -515,19 +612,16 @@ export function render(root, game) {
                 BOSS CHALLENGE
               </span>
 
-              <strong
-                id="bossName"
-              ></strong>
+              <strong id="bossName"></strong>
 
               <p>
-                Prove your mastery. Your weaker skills
-                are more likely to appear.
+                Prove your mastery.
+                Your weaker skills are more likely to appear.
               </p>
 
             </div>
 
           </div>
-
 
           <div
             class="boss-meter"
@@ -557,19 +651,15 @@ export function render(root, game) {
 
           </div>
 
-
           <div class="question">
 
             <p>
               Challenge
             </p>
 
-            <h2
-              id="question"
-            ></h2>
+            <h2 id="question"></h2>
 
           </div>
-
 
           <form id="form">
 
@@ -589,9 +679,7 @@ export function render(root, game) {
                 required
               >
 
-              <button
-                type="submit"
-              >
+              <button type="submit">
                 Solve
               </button>
 
@@ -599,13 +687,11 @@ export function render(root, game) {
 
           </form>
 
-
           <div
             class="feedback"
             id="feedback"
             aria-live="polite"
           ></div>
-
 
           <div
             class="explanation"
@@ -617,14 +703,11 @@ export function render(root, game) {
               Why?
             </div>
 
-            <p
-              id="explanationText"
-            ></p>
+            <p id="explanationText"></p>
 
           </div>
 
         </section>
-
 
         <section
           class="complete"
@@ -649,7 +732,6 @@ export function render(root, game) {
             id="completeText"
           ></p>
 
-
           <div
             class="level-up"
             id="levelUp"
@@ -666,7 +748,6 @@ export function render(root, game) {
 
           </div>
 
-
           <button
             id="continueLevel"
             class="primary-button"
@@ -680,9 +761,7 @@ export function render(root, game) {
 
       </section>
 
-
-      <!-- DAILY CHALLENGE -->
-
+      <!-- DAILY -->
       <section
         class="app-screen"
         id="dailyScreen"
@@ -710,8 +789,9 @@ export function render(root, game) {
             </h1>
 
             <p>
-              Five adaptive questions. Finish the run
-              to claim your daily reward.
+              Five adaptive questions.
+              Finish the run to claim
+              your daily reward.
             </p>
 
           </div>
@@ -729,7 +809,6 @@ export function render(root, game) {
           </div>
 
         </section>
-
 
         <section class="daily-card">
 
@@ -749,7 +828,6 @@ export function render(root, game) {
 
           </div>
 
-
           <div class="daily-progress-track">
 
             <span
@@ -757,7 +835,6 @@ export function render(root, game) {
             ></span>
 
           </div>
-
 
           <div class="daily-question-meta">
 
@@ -771,7 +848,6 @@ export function render(root, game) {
 
           </div>
 
-
           <div class="question daily-question">
 
             <p>
@@ -783,7 +859,6 @@ export function render(root, game) {
             ></h2>
 
           </div>
-
 
           <form id="dailyForm">
 
@@ -803,9 +878,7 @@ export function render(root, game) {
                 required
               >
 
-              <button
-                type="submit"
-              >
+              <button type="submit">
                 Solve
               </button>
 
@@ -813,13 +886,11 @@ export function render(root, game) {
 
           </form>
 
-
           <div
             class="feedback"
             id="dailyFeedback"
             aria-live="polite"
           ></div>
-
 
           <div
             class="explanation"
@@ -838,7 +909,6 @@ export function render(root, game) {
           </div>
 
         </section>
-
 
         <section
           class="daily-complete"
@@ -862,7 +932,6 @@ export function render(root, game) {
             id="dailyCompleteText"
           ></p>
 
-
           <div class="daily-reward-row">
 
             <span
@@ -874,7 +943,6 @@ export function render(root, game) {
             ></span>
 
           </div>
-
 
           <button
             id="dailyHomeButton"
@@ -888,14 +956,55 @@ export function render(root, game) {
 
       </section>
 
-
       <!-- PROFILE -->
-
       <section
         class="app-screen"
         id="profileScreen"
         hidden
       >
+
+        <section class="identity-profile-card">
+
+          <div
+            class="identity-avatar"
+            id="profileAvatar"
+          >
+            H
+          </div>
+
+          <div class="identity-profile-copy">
+
+            <p class="eyebrow">
+              YOUR IDENTITY
+            </p>
+
+            <h2
+              id="profileName"
+            >
+              Explorer
+            </h2>
+
+            <strong
+              id="profileTitle"
+            >
+              Number Explorer
+            </strong>
+
+            <span
+              id="profileJoined"
+            ></span>
+
+          </div>
+
+          <button
+            id="editProfile"
+            class="quiet"
+            type="button"
+          >
+            Edit Name
+          </button>
+
+        </section>
 
         <section class="page-heading">
 
@@ -910,8 +1019,9 @@ export function render(root, game) {
             </h1>
 
             <p>
-              Hisabati learns from your answers and adjusts
-              future challenges around your strengths and weaknesses.
+              Hisabati learns from your answers
+              and adjusts future challenges around
+              your strengths and weaknesses.
             </p>
 
           </div>
@@ -930,78 +1040,49 @@ export function render(root, game) {
 
         </section>
 
-
         <section class="profile-summary">
 
           <article>
-
-            <small>
-              LEVEL
-            </small>
-
+            <small>LEVEL</small>
             <strong
               id="profileLevel"
             ></strong>
-
             <span
               id="profileLevelName"
             ></span>
-
           </article>
 
-
           <article>
-
-            <small>
-              QUESTIONS
-            </small>
-
+            <small>QUESTIONS</small>
             <strong
               id="profileQuestions"
             ></strong>
-
             <span>
               answered
             </span>
-
           </article>
 
-
           <article>
-
-            <small>
-              DAILY STREAK
-            </small>
-
+            <small>DAILY STREAK</small>
             <strong
               id="profileDailyStreak"
             ></strong>
-
             <span>
               days
             </span>
-
           </article>
 
-
           <article>
-
-            <small>
-              XP
-            </small>
-
+            <small>XP</small>
             <strong
               id="profileXP"
             ></strong>
-
             <span>
               experience earned
             </span>
-
           </article>
 
         </section>
-
 
         <section class="profile-card">
 
@@ -1021,16 +1102,15 @@ export function render(root, game) {
 
           </div>
 
-
           <p class="profile-intro">
-            Weaker areas receive more practice while stronger
-            areas gradually become more demanding.
+            Weaker areas receive more practice
+            while stronger areas gradually become
+            more demanding.
           </p>
 
           <div id="skills"></div>
 
         </section>
-
 
         <section class="profile-card">
 
@@ -1065,86 +1145,313 @@ export function render(root, game) {
     </main>
   `;
 
-
-  /* NAVIGATION */
+  /*
+   * NAVIGATION
+   */
 
   root
     .querySelectorAll("[data-screen]")
     .forEach((button) => {
-
       button.addEventListener(
         "click",
-        () =>
+        () => {
           showScreen(
             root,
             game,
             button.dataset.screen
-          )
+          );
+        }
       );
-
     });
 
+  /*
+   * FIRST NAME SETUP
+   */
 
   root
-    .querySelector("#continueJourney")
+    .querySelector("#identityForm")
+    .addEventListener(
+      "submit",
+      (event) => {
+        event.preventDefault();
+
+        const input =
+          root.querySelector(
+            "#identityName"
+          );
+
+        const error =
+          root.querySelector(
+            "#identityError"
+          );
+
+        const saved =
+          game.setProfile({
+            name: input.value
+          });
+
+        if (!saved) {
+          error.textContent =
+            "Please enter a valid name.";
+
+          error.hidden = false;
+
+          input.focus();
+
+          return;
+        }
+
+        error.hidden = true;
+
+        root.querySelector(
+          "#identityGate"
+        ).hidden = true;
+
+        update(
+          root,
+          game.view()
+        );
+
+        showScreen(
+          root,
+          game,
+          "home"
+        );
+      }
+    );
+
+  /*
+   * OPEN NAME EDITOR
+   */
+
+  root
+    .querySelector("#editProfile")
     .addEventListener(
       "click",
-      () =>
+      () => {
+        const view =
+          game.view();
+
+        const currentName =
+          view.state.profile?.name ??
+          "";
+
+        const input =
+          root.querySelector(
+            "#profileNameInput"
+          );
+
+        const error =
+          root.querySelector(
+            "#profileEditError"
+          );
+
+        input.value =
+          currentName;
+
+        error.hidden = true;
+
+        root.querySelector(
+          "#profileEditOverlay"
+        ).hidden = false;
+
+        requestAnimationFrame(
+          () => {
+            input.focus();
+            input.select();
+          }
+        );
+      }
+    );
+
+  /*
+   * SAVE CHANGED NAME
+   */
+
+  root
+    .querySelector("#profileEditForm")
+    .addEventListener(
+      "submit",
+      (event) => {
+        event.preventDefault();
+
+        const input =
+          root.querySelector(
+            "#profileNameInput"
+          );
+
+        const error =
+          root.querySelector(
+            "#profileEditError"
+          );
+
+        const saved =
+          game.setProfile({
+            name: input.value
+          });
+
+        if (!saved) {
+          error.textContent =
+            "Your name cannot be empty.";
+
+          error.hidden = false;
+
+          input.focus();
+
+          return;
+        }
+
+        error.hidden = true;
+
+        root.querySelector(
+          "#profileEditOverlay"
+        ).hidden = true;
+
+        /*
+         * IMPORTANT:
+         * game.setProfile() emits a new view.
+         * We explicitly refresh here as well so
+         * the name is immediately visible.
+         */
+
+        update(
+          root,
+          game.view()
+        );
+
+        showScreen(
+          root,
+          game,
+          currentScreen
+        );
+      }
+    );
+
+  /*
+   * CANCEL NAME EDIT
+   */
+
+  root
+    .querySelector(
+      "#cancelProfileEdit"
+    )
+    .addEventListener(
+      "click",
+      () => {
+        closeProfileEditor(
+          root
+        );
+      }
+    );
+
+  root
+    .querySelector(
+      "#closeProfileEdit"
+    )
+    .addEventListener(
+      "click",
+      () => {
+        closeProfileEditor(
+          root
+        );
+      }
+    );
+
+  /*
+   * CLOSE EDITOR WITH ESCAPE
+   */
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (
+        event.key === "Escape" &&
+        !root.querySelector(
+          "#profileEditOverlay"
+        ).hidden
+      ) {
+        closeProfileEditor(
+          root
+        );
+      }
+    }
+  );
+
+  /*
+   * HOME
+   */
+
+  root
+    .querySelector(
+      "#continueJourney"
+    )
+    .addEventListener(
+      "click",
+      () => {
         showScreen(
           root,
           game,
           "gameplay"
-        )
+        );
+      }
     );
 
-
   root
-    .querySelector("#homeJourneyButton")
-    .addEventListener(
-      "click",
-      () =>
-        showScreen(
-          root,
-          game,
-          "journey"
-        )
-    );
-
-
-  root
-    .querySelector("#courseJourney")
-    .addEventListener(
-      "click",
-      () =>
-        showScreen(
-          root,
-          game,
-          "journey"
-        )
-    );
-
-
-  root
-    .querySelector("#backToJourney")
-    .addEventListener(
-      "click",
-      () =>
-        showScreen(
-          root,
-          game,
-          "journey"
-        )
-    );
-
-
-  /* LEVEL COMPLETION */
-
-  root
-    .querySelector("#continueLevel")
+    .querySelector(
+      "#homeJourneyButton"
+    )
     .addEventListener(
       "click",
       () => {
+        showScreen(
+          root,
+          game,
+          "journey"
+        );
+      }
+    );
 
+  root
+    .querySelector(
+      "#courseJourney"
+    )
+    .addEventListener(
+      "click",
+      () => {
+        showScreen(
+          root,
+          game,
+          "journey"
+        );
+      }
+    );
+
+  /*
+   * GAMEPLAY
+   */
+
+  root
+    .querySelector(
+      "#backToJourney"
+    )
+    .addEventListener(
+      "click",
+      () => {
+        showScreen(
+          root,
+          game,
+          "journey"
+        );
+      }
+    );
+
+  root
+    .querySelector(
+      "#continueLevel"
+    )
+    .addEventListener(
+      "click",
+      () => {
         if (!game.stageComplete) {
           return;
         }
@@ -1172,19 +1479,20 @@ export function render(root, game) {
           game,
           "gameplay"
         );
-
       }
     );
 
-
-  /* DAILY */
+  /*
+   * DAILY
+   */
 
   root
-    .querySelector("#startDaily")
+    .querySelector(
+      "#startDaily"
+    )
     .addEventListener(
       "click",
       () => {
-
         const started =
           game.startDaily();
 
@@ -1198,17 +1506,16 @@ export function render(root, game) {
             "daily"
           );
         }
-
       }
     );
 
-
   root
-    .querySelector("#exitDaily")
+    .querySelector(
+      "#exitDaily"
+    )
     .addEventListener(
       "click",
       () => {
-
         if (
           game.view().mode ===
           "daily"
@@ -1221,17 +1528,16 @@ export function render(root, game) {
           game,
           "home"
         );
-
       }
     );
 
-
   root
-    .querySelector("#dailyHomeButton")
+    .querySelector(
+      "#dailyHomeButton"
+    )
     .addEventListener(
       "click",
       () => {
-
         game.exitDaily();
 
         showScreen(
@@ -1239,19 +1545,18 @@ export function render(root, game) {
           game,
           "home"
         );
-
       }
     );
 
-
-  /* NORMAL ANSWERS */
+  /*
+   * NORMAL ANSWER
+   */
 
   root
     .querySelector("#form")
     .addEventListener(
       "submit",
       (event) => {
-
         event.preventDefault();
 
         const input =
@@ -1268,7 +1573,6 @@ export function render(root, game) {
           result.type ===
           "invalid"
         ) {
-
           feedback(
             root,
             "#feedback",
@@ -1284,7 +1588,7 @@ export function render(root, game) {
           "#feedback",
           result.message,
           result.type ===
-          "correct"
+            "correct"
             ? "success"
             : "error"
         );
@@ -1308,19 +1612,20 @@ export function render(root, game) {
         ) {
           input.focus();
         }
-
       }
     );
 
-
-  /* DAILY ANSWERS */
+  /*
+   * DAILY ANSWER
+   */
 
   root
-    .querySelector("#dailyForm")
+    .querySelector(
+      "#dailyForm"
+    )
     .addEventListener(
       "submit",
       (event) => {
-
         event.preventDefault();
 
         const input =
@@ -1337,7 +1642,6 @@ export function render(root, game) {
           result.type ===
           "invalid"
         ) {
-
           feedback(
             root,
             "#dailyFeedback",
@@ -1353,7 +1657,7 @@ export function render(root, game) {
           "#dailyFeedback",
           result.message,
           result.type ===
-          "correct"
+            "correct"
             ? "success"
             : "error"
         );
@@ -1373,29 +1677,30 @@ export function render(root, game) {
         );
 
         if (
-          !game.view().state.daily.completed
+          !game.view()
+            .state
+            .daily
+            .completed
         ) {
           input.focus();
         }
-
       }
     );
 
-
-  /* RESTART */
+  /*
+   * NEW JOURNEY
+   */
 
   root
     .querySelector("#restart")
     .addEventListener(
       "click",
       () => {
-
         if (
           confirm(
             "Start a new journey? Your saved progress will be erased."
           )
         ) {
-
           game.restart();
 
           showScreen(
@@ -1403,21 +1708,19 @@ export function render(root, game) {
             game,
             "home"
           );
-
         }
-
       }
     );
 
-
-  /* REVIVE */
+  /*
+   * REVIVE
+   */
 
   root
     .querySelector("#revive")
     .addEventListener(
       "click",
       () => {
-
         const before =
           game.view();
 
@@ -1430,49 +1733,74 @@ export function render(root, game) {
           after.state.lives >
           before.state.lives
         ) {
-
           feedback(
             root,
             "#feedback",
-            `Revived! +${
-              after.state.lives -
-              before.state.lives
-            } hearts for ${REVIVE_COST} coins.`,
+            "Revived! Your hearts have been restored.",
             "success"
           );
-
         } else {
-
           feedback(
             root,
             "#feedback",
             "You need 20 coins and fewer than 3 hearts to revive.",
             "error"
           );
-
         }
 
         update(
           root,
           after
         );
-
       }
     );
 
+  /*
+   * INITIAL STATE
+   */
+
+  const initialView =
+    game.view();
 
   update(
     root,
-    game.view()
+    initialView
   );
 
-  showScreen(
-    root,
-    game,
-    "home"
-  );
+  if (
+    initialView.hasProfile
+  ) {
+    root.querySelector(
+      "#identityGate"
+    ).hidden = true;
+
+    showScreen(
+      root,
+      game,
+      "home"
+    );
+  } else {
+    root.querySelector(
+      "#identityGate"
+    ).hidden = false;
+
+    showScreen(
+      root,
+      game,
+      "home"
+    );
+
+    requestAnimationFrame(
+      () => {
+        root
+          .querySelector(
+            "#identityName"
+          )
+          ?.focus();
+      }
+    );
+  }
 }
-
 
 export function update(
   root,
@@ -1504,6 +1832,13 @@ export function update(
   );
 }
 
+function closeProfileEditor(
+  root
+) {
+  root.querySelector(
+    "#profileEditOverlay"
+  ).hidden = true;
+}
 
 function showScreen(
   root,
@@ -1540,18 +1875,14 @@ function showScreen(
       )
   };
 
-
   Object.entries(
     screens
   ).forEach(
     ([name, element]) => {
-
       element.hidden =
         name !== screen;
-
     }
   );
-
 
   root
     .querySelectorAll(
@@ -1559,22 +1890,18 @@ function showScreen(
     )
     .forEach(
       (button) => {
-
         button.classList.toggle(
           "active",
           button.dataset.screen ===
-          screen
+            screen
         );
-
       }
     );
-
 
   if (
     screen ===
     "gameplay"
   ) {
-
     root
       .querySelectorAll(
         "[data-screen]"
@@ -1591,15 +1918,12 @@ function showScreen(
         "#answer"
       )
       ?.focus();
-
   }
-
 
   if (
     screen ===
     "daily"
   ) {
-
     root
       .querySelectorAll(
         "[data-screen]"
@@ -1613,20 +1937,18 @@ function showScreen(
 
     if (
       !game.view()
-        .state.daily.completed
+        .state
+        .daily
+        .completed
     ) {
-
       root
         .querySelector(
           "#dailyAnswer"
         )
         ?.focus();
-
     }
-
   }
 }
-
 
 function updateHome(
   root,
@@ -1634,6 +1956,26 @@ function updateHome(
 ) {
   const stage =
     view.stage;
+
+  const name =
+    view.state.profile?.name?.trim();
+
+  const displayName =
+    name || "Explorer";
+
+  root.querySelector(
+    "#homeWelcome"
+  ).textContent =
+    name
+      ? `WELCOME BACK, ${displayName.toUpperCase()}`
+      : "WELCOME TO HISABATI";
+
+  root.querySelector(
+    "#homeGreeting"
+  ).innerHTML =
+    name
+      ? `Continue your<br>mathematical journey.`
+      : `Begin your<br>mathematical journey.`;
 
   const total =
     view.stageCount ??
@@ -1652,64 +1994,42 @@ function updateHome(
         100
     );
 
-
-  root
-    .querySelector(
-      "#homeChapter"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeChapter"
+  ).textContent =
     `CHAPTER ${stage.chapter} · ${stage.chapterName}`;
 
-
-  root
-    .querySelector(
-      "#homeLevelName"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeLevelName"
+  ).textContent =
     stage.name;
 
-
-  root
-    .querySelector(
-      "#homeLevelDescription"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeLevelDescription"
+  ).textContent =
     stage.desc ?? "";
 
-
-  root
-    .querySelector(
-      "#homeLevelNumber"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeLevelNumber"
+  ).textContent =
     stage.id;
 
-
-  root
-    .querySelector(
-      "#homeProgressFill"
-    )
-    .style.width =
+  root.querySelector(
+    "#homeProgressFill"
+  ).style.width =
     `${progress}%`;
 
-
-  root
-    .querySelector(
-      "#homeProgressText"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeProgressText"
+  ).textContent =
     `Level ${stage.id} of ${total}`;
 
-
-  root
-    .querySelector(
-      "#homeXP"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeXP"
+  ).textContent =
     Math.floor(
       view.state.xp
     );
-
 
   const xpRemaining =
     Math.max(
@@ -1720,86 +2040,62 @@ function updateHome(
         )
     );
 
-
-  root
-    .querySelector(
-      "#homeXPLabel"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeXPLabel"
+  ).textContent =
     xpRemaining
       ? `${xpRemaining} XP to next reward`
       : "Reward ready";
 
-
-  root
-    .querySelector(
-      "#homeCoins"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeCoins"
+  ).textContent =
     view.state.coins;
 
-
-  root
-    .querySelector(
-      "#homeStreak"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeStreak"
+  ).textContent =
     view.state.streak;
 
-
-  root
-    .querySelector(
-      "#homeLives"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeLives"
+  ).textContent =
     "♥".repeat(
       view.state.lives
     ) +
     "♡".repeat(
       Math.max(
         0,
-        3 - view.state.lives
+        3 -
+          view.state.lives
       )
     );
 
-
-  root
-    .querySelector(
-      "#homeLivesLabel"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeLivesLabel"
+  ).textContent =
     view.state.lives === 3
       ? "Full hearts."
       : `${view.state.lives} hearts remaining.`;
 
-
-  root
-    .querySelector(
-      "#homeReward"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeReward"
+  ).textContent =
     xpRemaining
       ? `${xpRemaining} XP to reward`
       : "Reward ready";
 
-
-  root
-    .querySelector(
-      "#homeRewardText"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeRewardText"
+  ).textContent =
     view.isBoss
       ? "Defeat the boss to earn the larger reward."
       : "Clear the level to earn bonus coins and advance.";
 
-
-  root
-    .querySelector(
-      "#homeCourseProgress"
-    )
-    .textContent =
+  root.querySelector(
+    "#homeCourseProgress"
+  ).textContent =
     `Level ${stage.id} of ${total}`;
-
 
   const dailyDone =
     view.state.daily.completed;
@@ -1819,9 +2115,7 @@ function updateHome(
       "#dailyHomeText"
     );
 
-
   if (dailyDone) {
-
     dailyTitle.textContent =
       "Today's challenge complete.";
 
@@ -1833,9 +2127,7 @@ function updateHome(
 
     dailyButton.disabled =
       true;
-
   } else {
-
     dailyTitle.textContent =
       "Five questions. One daily run.";
 
@@ -1847,10 +2139,8 @@ function updateHome(
 
     dailyButton.disabled =
       false;
-
   }
 }
-
 
 function updateGameplay(
   root,
@@ -1859,68 +2149,49 @@ function updateGameplay(
   const stage =
     view.stage;
 
-
-  root
-    .querySelector(
-      "#gameChapter"
-    )
-    .textContent =
+  root.querySelector(
+    "#gameChapter"
+  ).textContent =
     `CHAPTER ${stage.chapter} · ${stage.chapterName}`;
 
-
-  root
-    .querySelector(
-      "#gameLevelName"
-    )
-    .textContent =
+  root.querySelector(
+    "#gameLevelName"
+  ).textContent =
     stage.name;
 
-
-  root
-    .querySelector(
-      "#xp"
-    )
-    .textContent =
+  root.querySelector(
+    "#xp"
+  ).textContent =
     `${Math.floor(view.state.xp)} / ${view.xpTarget}`;
 
-
-  root
-    .querySelector(
-      "#coins"
-    )
-    .textContent =
+  root.querySelector(
+    "#coins"
+  ).textContent =
     view.state.coins;
 
-
-  root
-    .querySelector(
-      "#streak"
-    )
-    .textContent =
+  root.querySelector(
+    "#streak"
+  ).textContent =
     view.state.streak;
 
-
-  root
-    .querySelector(
-      "#lives"
-    )
-    .textContent =
+  root.querySelector(
+    "#lives"
+  ).textContent =
     "♥".repeat(
       view.state.lives
     ) +
     "♡".repeat(
       Math.max(
         0,
-        3 - view.state.lives
+        3 -
+          view.state.lives
       )
     );
-
 
   const revive =
     root.querySelector(
       "#revive"
     );
-
 
   revive.disabled =
     view.state.lives >= 3 ||
@@ -1928,98 +2199,75 @@ function updateGameplay(
       REVIVE_COST ||
     view.stageComplete;
 
-
   revive.textContent =
     view.state.lives >= 3
       ? "♥ Full Hearts"
       : view.state.coins <
-        REVIVE_COST
+          REVIVE_COST
         ? "↻ Revive · Need 20 coins"
         : "↻ Revive · 20 coins";
-
 
   const round =
     Math.min(
       view.encounterTarget,
-      view.state.stageTotal +
-        1
+      view.state.stageTotal + 1
     );
 
-
-  root
-    .querySelector(
-      "#encounter"
-    )
-    .textContent =
+  root.querySelector(
+    "#encounter"
+  ).textContent =
     view.isBoss
       ? `BOSS ROUND ${round} / ${view.encounterTarget}`
       : `ENCOUNTER ${view.state.encounter} / ${view.encounterTarget}`;
 
-
-  root
-    .querySelector(
-      "#skill"
-    )
-    .textContent =
+  root.querySelector(
+    "#skill"
+  ).textContent =
     view.question?.label ??
     "";
 
-
-  root
-    .querySelector(
-      "#subskill"
-    )
-    .textContent =
+  root.querySelector(
+    "#subskill"
+  ).textContent =
     view.question?.subskill ??
     "";
 
-
-  root
-    .querySelector(
-      "#question"
-    )
-    .textContent =
+  root.querySelector(
+    "#question"
+  ).textContent =
     view.question?.text ??
     "";
 
-
-  root
-    .querySelector(
-      "#mode"
-    )
-    .textContent =
+  root.querySelector(
+    "#mode"
+  ).textContent =
     view.isBoss
       ? "BOSS"
       : "ADVENTURE";
 
-
-  root
-    .querySelector(
+  const bossBanner =
+    root.querySelector(
       "#bossBanner"
-    )
-    .hidden =
-    !view.isBoss;
+    );
 
-
-  root
-    .querySelector(
+  const bossMeter =
+    root.querySelector(
       "#bossMeter"
-    )
-    .hidden =
+    );
+
+  bossBanner.hidden =
     !view.isBoss;
 
+  bossMeter.hidden =
+    !view.isBoss;
 
   if (
     view.isBoss
   ) {
-
-    root
-      .querySelector(
-        "#bossName"
-      )
-      .textContent =
+    root.querySelector(
+      "#bossName"
+    ).textContent =
       stage.bossName;
-
 
     const percent =
       (
@@ -2030,39 +2278,28 @@ function updateGameplay(
         stage.bossQuestions
       ) * 100;
 
-
-    root
-      .querySelector(
-        "#bossProgress"
-      )
-      .textContent =
+    root.querySelector(
+      "#bossProgress"
+    ).textContent =
       `${view.state.stageCorrect} / ${view.masteryTarget} correct`;
 
-
-    root
-      .querySelector(
-        "#bossFill"
-      )
-      .style.width =
+    root.querySelector(
+      "#bossFill"
+    ).style.width =
       `${percent}%`;
-
   }
-
 
   const complete =
     root.querySelector(
       "#complete"
     );
 
-
   complete.hidden =
     !view.stageComplete;
-
 
   if (
     view.stageComplete
   ) {
-
     const completed =
       view.completedStage ??
       stage;
@@ -2072,37 +2309,27 @@ function updateGameplay(
         completed.boss
       );
 
-
-    root
-      .querySelector(
-        "#completeEyebrow"
-      )
-      .textContent =
+    root.querySelector(
+      "#completeEyebrow"
+    ).textContent =
       boss
         ? "BOSS DEFEATED"
         : "LEVEL COMPLETE";
 
-
-    root
-      .querySelector(
-        "#completeTitle"
-      )
-      .textContent =
+    root.querySelector(
+      "#completeTitle"
+    ).textContent =
       boss
         ? `${completed.bossName ?? stage.bossName} defeated.`
         : `${completed.name} cleared.`;
 
-
-    root
-      .querySelector(
-        "#completeText"
-      )
-      .textContent =
+    root.querySelector(
+      "#completeText"
+    ).textContent =
       view.state.stage >=
       view.stageCount
         ? "You have reached the current summit. Hisabati has recorded your progress."
         : "Your mastery has unlocked the next level.";
-
 
     const levelUp =
       root.querySelector(
@@ -2114,12 +2341,10 @@ function updateGameplay(
         "#continueLevel"
       );
 
-
     if (
       view.state.stage <
       view.stageCount
     ) {
-
       const nextLevel =
         ARITHMETIC_LEVELS.find(
           (level) =>
@@ -2127,30 +2352,22 @@ function updateGameplay(
             view.state.stage
         );
 
-
       levelUp.hidden =
         false;
 
-
-      root
-        .querySelector(
-          "#nextLevelName"
-        )
-        .textContent =
+      root.querySelector(
+        "#nextLevelName"
+      ).textContent =
         nextLevel
           ? `Level ${nextLevel.id} · ${nextLevel.name}`
           : `Level ${view.state.stage}`;
 
-
       continueButton.hidden =
         false;
 
-
       continueButton.textContent =
         "Continue to Next Level";
-
     } else {
-
       levelUp.hidden =
         true;
 
@@ -2159,28 +2376,19 @@ function updateGameplay(
 
       continueButton.textContent =
         "Return to Journey";
-
     }
-
   } else {
-
-    root
-      .querySelector(
-        "#continueLevel"
-      )
-      .hidden =
+    root.querySelector(
+      "#continueLevel"
+    ).hidden =
       true;
 
-    root
-      .querySelector(
-        "#levelUp"
-      )
-      .hidden =
+    root.querySelector(
+      "#levelUp"
+    ).hidden =
       true;
-
   }
 }
-
 
 function updateDaily(
   root,
@@ -2198,24 +2406,19 @@ function updateDaily(
   const progress =
     Math.min(
       100,
-      (answered / DAILY_TOTAL) *
+      (answered /
+        DAILY_TOTAL) *
         100
     );
 
-
-  root
-    .querySelector(
-      "#dailyStreak"
-    )
-    .textContent =
+  root.querySelector(
+    "#dailyStreak"
+  ).textContent =
     daily.streak;
 
-
-  root
-    .querySelector(
-      "#dailyProgressText"
-    )
-    .textContent =
+  root.querySelector(
+    "#dailyProgressText"
+  ).textContent =
     completed
       ? "CHALLENGE COMPLETE"
       : `QUESTION ${Math.min(
@@ -2223,52 +2426,34 @@ function updateDaily(
           DAILY_TOTAL
         )} OF ${DAILY_TOTAL}`;
 
-
-  root
-    .querySelector(
-      "#dailyScore"
-    )
-    .textContent =
+  root.querySelector(
+    "#dailyScore"
+  ).textContent =
     `${daily.correct} correct`;
 
-
-  root
-    .querySelector(
-      "#dailyProgressFill"
-    )
-    .style.width =
+  root.querySelector(
+    "#dailyProgressFill"
+  ).style.width =
     `${progress}%`;
-
 
   if (
     view.dailyQuestion
   ) {
-
-    root
-      .querySelector(
-        "#dailyQuestion"
-      )
-      .textContent =
+    root.querySelector(
+      "#dailyQuestion"
+    ).textContent =
       view.dailyQuestion.text;
 
-
-    root
-      .querySelector(
-        "#dailySkill"
-      )
-      .textContent =
+    root.querySelector(
+      "#dailySkill"
+    ).textContent =
       view.dailyQuestion.label;
 
-
-    root
-      .querySelector(
-        "#dailySubskill"
-      )
-      .textContent =
+    root.querySelector(
+      "#dailySubskill"
+    ).textContent =
       view.dailyQuestion.subskill;
-
   }
-
 
   const form =
     root.querySelector(
@@ -2285,9 +2470,7 @@ function updateDaily(
       ".daily-card"
     );
 
-
   if (completed) {
-
     form.hidden =
       true;
 
@@ -2298,49 +2481,34 @@ function updateDaily(
     complete.hidden =
       false;
 
-
     const perfect =
       daily.correct ===
       DAILY_TOTAL;
 
-
-    root
-      .querySelector(
-        "#dailyCompleteTitle"
-      )
-      .textContent =
+    root.querySelector(
+      "#dailyCompleteTitle"
+    ).textContent =
       perfect
         ? "Perfect run."
         : "Daily challenge complete.";
 
-
-    root
-      .querySelector(
-        "#dailyCompleteText"
-      )
-      .textContent =
+    root.querySelector(
+      "#dailyCompleteText"
+    ).textContent =
       `${daily.correct} of ${DAILY_TOTAL} correct. Your daily progress has been recorded.`;
 
-
-    root
-      .querySelector(
-        "#dailyReward"
-      )
-      .textContent =
+    root.querySelector(
+      "#dailyReward"
+    ).textContent =
       perfect
         ? "+40 XP · +20 coins"
         : "+25 XP · +10 coins";
 
-
-    root
-      .querySelector(
-        "#dailyStreakReward"
-      )
-      .textContent =
-      `🔥 ${daily.streak} day streak`;
-
+    root.querySelector(
+      "#dailyStreakReward"
+    ).textContent =
+      `${daily.streak} day streak`;
   } else {
-
     form.hidden =
       false;
 
@@ -2350,10 +2518,8 @@ function updateDaily(
 
     complete.hidden =
       true;
-
   }
 }
-
 
 function renderMap(
   root,
@@ -2368,22 +2534,16 @@ function renderMap(
     return;
   }
 
-
   map.innerHTML =
     "";
-
 
   const currentLevel =
     view.state.stage;
 
-
-  const chapters =
-    [];
-
+  const chapters = [];
 
   ARITHMETIC_LEVELS.forEach(
     (level) => {
-
       let chapter =
         chapters.find(
           (item) =>
@@ -2391,9 +2551,7 @@ function renderMap(
             level.chapter
         );
 
-
       if (!chapter) {
-
         chapter = {
           id:
             level.chapter,
@@ -2401,39 +2559,30 @@ function renderMap(
           name:
             level.chapterName,
 
-          levels:
-            []
+          levels: []
         };
 
         chapters.push(
           chapter
         );
-
       }
-
 
       chapter.levels.push(
         level
       );
-
     }
   );
 
-
-  root
-    .querySelector(
-      "#journeyProgress"
-    )
-    .textContent =
+  root.querySelector(
+    "#journeyProgress"
+  ).textContent =
     `${Math.max(
       0,
       currentLevel - 1
     )} / ${ARITHMETIC_LEVELS.length}`;
 
-
   chapters.forEach(
     (chapter) => {
-
       const section =
         document.createElement(
           "div"
@@ -2442,7 +2591,6 @@ function renderMap(
       section.className =
         "journey-chapter";
 
-
       const cleared =
         chapter.levels.filter(
           (level) =>
@@ -2450,55 +2598,48 @@ function renderMap(
             currentLevel
         ).length;
 
-
       section.innerHTML = `
         <div class="journey-chapter-head">
           <span>
-            Chapter ${chapter.id} · ${chapter.name}
+            Chapter ${chapter.id}
+            · ${chapter.name}
           </span>
 
           <span>
-            ${cleared}/${chapter.levels.length} cleared
+            ${cleared}/${chapter.levels.length}
+            cleared
           </span>
         </div>
 
         <div class="journey-levels"></div>
       `;
 
-
       const levels =
         section.querySelector(
           ".journey-levels"
         );
 
-
       chapter.levels.forEach(
         (level) => {
-
           const node =
             document.createElement(
               "div"
             );
 
-
           const isCleared =
             level.id <
             currentLevel;
-
 
           const isCurrent =
             level.id ===
             currentLevel;
 
-
           const isLocked =
             level.id >
             currentLevel;
 
-
           node.className =
             "journey-level";
-
 
           if (isCleared) {
             node.classList.add(
@@ -2506,13 +2647,11 @@ function renderMap(
             );
           }
 
-
           if (isCurrent) {
             node.classList.add(
               "current"
             );
           }
-
 
           if (isLocked) {
             node.classList.add(
@@ -2520,27 +2659,22 @@ function renderMap(
             );
           }
 
-
           if (level.boss) {
             node.classList.add(
               "boss"
             );
           }
 
-
           const status =
             isCleared
               ? "CLEARED"
               : isCurrent
-                ? (
-                    level.boss
-                      ? "CURRENT BOSS"
-                      : "CURRENT"
-                  )
+                ? level.boss
+                  ? "CURRENT BOSS"
+                  : "CURRENT"
                 : level.boss
                   ? "BOSS"
                   : "LOCKED";
-
 
           node.innerHTML = `
             <div class="journey-level-number">
@@ -2556,72 +2690,97 @@ function renderMap(
             </span>
           `;
 
-
           if (isCurrent) {
-
             node.addEventListener(
               "click",
-              () =>
+              () => {
                 showScreen(
                   root,
                   activeGame,
                   "gameplay"
-                )
+                );
+              }
             );
-
           }
-
 
           levels.appendChild(
             node
           );
-
         }
       );
-
 
       map.appendChild(
         section
       );
-
     }
   );
 }
-
 
 function renderProfile(
   root,
   view
 ) {
-  root
-    .querySelector(
-      "#accuracy"
-    )
-    .textContent =
+  const name =
+    view.state.profile?.name?.trim() ||
+    "Explorer";
+
+  const initial =
+    name
+      .charAt(0)
+      .toUpperCase();
+
+  const createdAt =
+    view.state.profile?.createdAt;
+
+  root.querySelector(
+    "#profileAvatar"
+  ).textContent =
+    initial;
+
+  root.querySelector(
+    "#profileName"
+  ).textContent =
+    name;
+
+  root.querySelector(
+    "#profileTitle"
+  ).textContent =
+    view.playerTitle;
+
+  root.querySelector(
+    "#profileJoined"
+  ).textContent =
+    createdAt
+      ? `Journey started ${new Date(
+          createdAt
+        ).toLocaleDateString(
+          undefined,
+          {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+          }
+        )}`
+      : "Journey starting today";
+
+  root.querySelector(
+    "#accuracy"
+  ).textContent =
     `${view.accuracy}%`;
 
-
-  root
-    .querySelector(
-      "#profileLevel"
-    )
-    .textContent =
+  root.querySelector(
+    "#profileLevel"
+  ).textContent =
     view.state.stage;
 
-
-  root
-    .querySelector(
-      "#profileLevelName"
-    )
-    .textContent =
+  root.querySelector(
+    "#profileLevelName"
+  ).textContent =
     view.stage.name;
 
-
-  root
-    .querySelector(
-      "#profileQuestions"
-    )
-    .textContent =
+  root.querySelector(
+    "#profileQuestions"
+  ).textContent =
     Object.values(
       view.subskills
     ).reduce(
@@ -2637,30 +2796,22 @@ function renderProfile(
       0
     );
 
-
-  root
-    .querySelector(
-      "#profileDailyStreak"
-    )
-    .textContent =
+  root.querySelector(
+    "#profileDailyStreak"
+  ).textContent =
     view.state.daily.streak;
 
-
-  root
-    .querySelector(
-      "#profileXP"
-    )
-    .textContent =
+  root.querySelector(
+    "#profileXP"
+  ).textContent =
     Math.floor(
       view.state.xp
     );
-
 
   renderSkills(
     root,
     view
   );
-
 
   const remaining =
     Math.max(
@@ -2671,27 +2822,20 @@ function renderProfile(
         )
     );
 
-
-  root
-    .querySelector(
-      "#reward"
-    )
-    .textContent =
+  root.querySelector(
+    "#reward"
+  ).textContent =
     remaining
       ? `${remaining} XP to reward`
       : "Reward ready";
 
-
-  root
-    .querySelector(
-      "#rewardText"
-    )
-    .textContent =
+  root.querySelector(
+    "#rewardText"
+  ).textContent =
     view.isBoss
       ? "Defeat the boss to earn the larger reward."
       : "Clear the level to earn bonus coins and advance.";
 }
-
 
 function renderSkills(
   root,
@@ -2702,21 +2846,18 @@ function renderSkills(
       "#skills"
     );
 
-
-  const grouped =
-    {};
-
+  const grouped = {};
 
   Object.values(
     view.subskills
   ).forEach(
-    (item) =>
+    (item) => {
       (
         grouped[item.skill] ??=
         []
-      ).push(item)
+      ).push(item);
+    }
   );
-
 
   skills.innerHTML =
     Object.entries(
@@ -2724,7 +2865,6 @@ function renderSkills(
     )
       .map(
         ([name, items]) => {
-
           const overall =
             Math.round(
               (
@@ -2742,9 +2882,8 @@ function renderSkills(
                   8
                 )
               ) *
-              100
+                100
             );
-
 
           const label =
             name
@@ -2752,21 +2891,18 @@ function renderSkills(
               .toUpperCase() +
             name.slice(1);
 
-
           const rows =
             items
               .map(
                 (item) => {
-
                   const percent =
                     Math.round(
                       (
                         item.level /
                         8
                       ) *
-                      100
+                        100
                     );
-
 
                   const accuracy =
                     item.attempts
@@ -2775,10 +2911,9 @@ function renderSkills(
                             item.correct /
                             item.attempts
                           ) *
-                          100
+                            100
                         )
                       : null;
-
 
                   return `
                     <div class="subskill">
@@ -2795,7 +2930,8 @@ function renderSkills(
 
                       <b>
                         ${
-                          accuracy === null
+                          accuracy ===
+                          null
                             ? "New"
                             : `${accuracy}%`
                         }
@@ -2803,17 +2939,14 @@ function renderSkills(
 
                     </div>
                   `;
-
                 }
               )
               .join("");
-
 
           return `
             <div class="skill-group">
 
               <div class="skill-group-head">
-
                 <strong>
                   ${label}
                 </strong>
@@ -2821,19 +2954,16 @@ function renderSkills(
                 <span>
                   ${overall}%
                 </span>
-
               </div>
 
               ${rows}
 
             </div>
           `;
-
         }
       )
       .join("");
 }
-
 
 function feedback(
   root,
@@ -2846,15 +2976,12 @@ function feedback(
       selector
     );
 
-
   element.textContent =
     message;
-
 
   element.className =
     `feedback ${type}`;
 }
-
 
 function showExplanation(
   root,
@@ -2872,16 +2999,14 @@ function showExplanation(
       textSelector
     );
 
-
-  if (!result.explanation) {
-
+  if (
+    !result.explanation
+  ) {
     box.hidden =
       true;
 
     return;
-
   }
-
 
   text.textContent =
     result.explanation;
@@ -2890,8 +3015,7 @@ function showExplanation(
     false;
 }
 
-
-function gameIsActive() {
+export function gameIsActive() {
   return Boolean(
     activeGame
   );

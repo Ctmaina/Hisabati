@@ -52,8 +52,7 @@ export class Game {
     return (
       COURSES.find(
         (course) =>
-          course.id ===
-          this.state.course
+          course.id === this.state.course
       ) ?? COURSES[0]
     );
   }
@@ -62,8 +61,7 @@ export class Game {
     return (
       ARITHMETIC_LEVELS.find(
         (level) =>
-          level.id ===
-          this.state.stage
+          level.id === this.state.stage
       ) ??
       ARITHMETIC_LEVELS[
         ARITHMETIC_LEVELS.length - 1
@@ -96,8 +94,7 @@ export class Game {
   get xpTarget() {
     return (
       100 +
-      (this.state.stage - 1) *
-        30
+      (this.state.stage - 1) * 30
     );
   }
 
@@ -126,10 +123,9 @@ export class Game {
   }
 
   get mastery() {
-    const values =
-      Object.values(
-        this.state.skills
-      );
+    const values = Object.values(
+      this.state.skills
+    );
 
     if (!values.length) {
       return 0;
@@ -163,6 +159,9 @@ export class Game {
       name: level.name,
 
       desc: level.description,
+
+      description:
+        level.description,
 
       focus: level.focus,
 
@@ -287,8 +286,7 @@ export class Game {
     const xp =
       15 +
       Math.round(
-        this.state.skills[skill] *
-          2
+        this.state.skills[skill] * 2
       );
 
     const coins =
@@ -482,9 +480,7 @@ export class Game {
       completed;
 
     const boss =
-      Boolean(
-        completed.boss
-      );
+      Boolean(completed.boss);
 
     const levelReward =
       boss ? 80 : 40;
@@ -536,11 +532,15 @@ export class Game {
 
     const REVIVE_COST = 20;
 
-    if (this.state.coins < REVIVE_COST) {
+    if (
+      this.state.coins <
+      REVIVE_COST
+    ) {
       return false;
     }
 
-    this.state.coins -= REVIVE_COST;
+    this.state.coins -=
+      REVIVE_COST;
 
     this.state.lives = 3;
 
@@ -592,7 +592,9 @@ export class Game {
 
   checkAchievements() {
     if (this.state.correct >= 1) {
-      this.unlock("first-answer");
+      this.unlock(
+        "first-answer"
+      );
     }
 
     if (this.state.streak >= 5) {
@@ -603,19 +605,27 @@ export class Game {
       this.unlock("streak-10");
     }
 
-    if (this.state.levelsCompleted >= 1) {
+    if (
+      this.state.levelsCompleted >= 1
+    ) {
       this.unlock("level-1");
     }
 
-    if (this.state.bossesDefeated >= 1) {
+    if (
+      this.state.bossesDefeated >= 1
+    ) {
       this.unlock("level-5");
     }
 
-    if (this.state.bossesDefeated >= 2) {
+    if (
+      this.state.bossesDefeated >= 2
+    ) {
       this.unlock("level-10");
     }
 
-    if (this.state.bossesDefeated >= 3) {
+    if (
+      this.state.bossesDefeated >= 3
+    ) {
       this.unlock("level-15");
     }
 
@@ -635,14 +645,18 @@ export class Game {
   syncDaily() {
     const today = getToday();
 
-    if (this.state.daily.date === today) {
+    if (
+      this.state.daily.date ===
+      today
+    ) {
       return;
     }
 
     const previousCompleted =
       this.state.daily.lastCompletedDate;
 
-    const yesterday = new Date();
+    const yesterday =
+      new Date();
 
     yesterday.setDate(
       yesterday.getDate() - 1
@@ -668,9 +682,10 @@ export class Game {
 
       total: 0,
 
-      streak: continuingStreak
-        ? this.state.daily.streak ?? 0
-        : 0,
+      streak:
+        continuingStreak
+          ? this.state.daily.streak ?? 0
+          : 0,
 
       bestStreak:
         this.state.daily.bestStreak ??
@@ -684,7 +699,9 @@ export class Game {
   startDaily() {
     this.syncDaily();
 
-    if (this.state.daily.completed) {
+    if (
+      this.state.daily.completed
+    ) {
       return false;
     }
 
@@ -699,10 +716,11 @@ export class Game {
         {
           ...this.level,
 
-          difficulty: Math.min(
-            8,
-            this.level.difficulty + 1
-          )
+          difficulty:
+            Math.min(
+              8,
+              this.level.difficulty + 1
+            )
         },
 
         this.state.skills,
@@ -763,7 +781,8 @@ export class Game {
       );
 
     if (correct) {
-      this.state.daily.correct += 1;
+      this.state.daily.correct +=
+        1;
 
       this.updateSubskill(
         subskillKey,
@@ -802,37 +821,28 @@ export class Game {
       correct
         ? {
             type: "correct",
-
-            message:
-              "Correct.",
-
+            message: "Correct.",
             answer:
               answerText(
                 question.answer
               ),
-
             explanation:
               question.explanation,
-
             subskill:
               question.subskill
           }
         : {
             type: "wrong",
-
             message:
               `Not quite. The answer is ${answerText(
                 question.answer
               )}.`,
-
             answer:
               answerText(
                 question.answer
               ),
-
             explanation:
               question.explanation,
-
             subskill:
               question.subskill
           };
@@ -892,18 +902,20 @@ export class Game {
       ).padStart(2, "0")}`;
 
     const lastCompleted =
-      this.state.daily.lastCompletedDate;
+      this.state.daily
+        .lastCompletedDate;
 
     if (
       lastCompleted ===
       yesterdayKey
     ) {
-      this.state.daily.streak += 1;
+      this.state.daily.streak +=
+        1;
     } else if (
-      lastCompleted !==
-      today
+      lastCompleted !== today
     ) {
-      this.state.daily.streak = 1;
+      this.state.daily.streak =
+        1;
     }
 
     this.state.daily.bestStreak =
@@ -912,7 +924,8 @@ export class Game {
         this.state.daily.streak
       );
 
-    this.state.daily.lastCompletedDate =
+    this.state.daily
+      .lastCompletedDate =
       today;
 
     this.state.daily.completed =
@@ -933,7 +946,8 @@ export class Game {
       coins
     );
 
-    this.state.stats.totalDailyChallenges +=
+    this.state.stats
+      .totalDailyChallenges +=
       1;
 
     this.unlock(
@@ -952,18 +966,17 @@ export class Game {
     this.dailyResult = {
       ...this.dailyResult,
 
-      message: perfect
-        ? `Daily Challenge complete! Perfect score. +${xp} XP · +${coins} coins`
-        : `Daily Challenge complete. +${xp} XP · +${coins} coins`,
+      message:
+        perfect
+          ? `Daily Challenge complete! Perfect score. +${xp} XP · +${coins} coins`
+          : `Daily Challenge complete. +${xp} XP · +${coins} coins`,
 
-      dailyComplete:
-        true,
+      dailyComplete: true,
 
       dailyCorrect:
         this.state.daily.correct,
 
-      dailyTotal:
-        5,
+      dailyTotal: 5,
 
       dailyStreak:
         this.state.daily.streak
@@ -988,20 +1001,100 @@ export class Game {
     this.emit();
   }
 
+  get playerTitle() {
+    const level =
+      Number(this.state.stage) || 1;
+
+    if (level >= 15) {
+      return "Arithmetic Warden";
+    }
+
+    if (level >= 11) {
+      return "Mathematics Adept";
+    }
+
+    if (level >= 6) {
+      return "Calculation Apprentice";
+    }
+
+    if (level >= 5) {
+      return "Number Keeper";
+    }
+
+    return "Number Explorer";
+  }
+
+  /*
+   * PROFILE / NAME SYSTEM
+   */
+
+  setProfile(profile = {}) {
+    const name =
+      String(
+        profile.name ?? ""
+      )
+        .trim()
+        .replace(/\s+/g, " ")
+        .slice(0, 24);
+
+    if (!name) {
+      return false;
+    }
+
+    const now =
+      new Date().toISOString();
+
+    const previousProfile =
+      this.state.profile ?? {};
+
+    this.state.profile = {
+      ...previousProfile,
+
+      name,
+
+      createdAt:
+        previousProfile.createdAt ??
+        now,
+
+      updatedAt:
+        now
+    };
+
+    save(this.state);
+
+    this.emit();
+
+    return true;
+  }
+
   restart() {
+    const profile =
+      structuredClone(
+        this.state.profile
+      );
+
     this.state = reset();
 
-    this.mode = "adventure";
+    this.state.profile =
+      profile;
 
-    this.stageComplete = false;
+    this.mode =
+      "adventure";
 
-    this.completedStage = null;
+    this.stageComplete =
+      false;
 
-    this.lastResult = null;
+    this.completedStage =
+      null;
 
-    this.dailyQuestion = null;
+    this.lastResult =
+      null;
 
-    this.dailyResult = null;
+    this.dailyQuestion =
+      null;
+
+    this.dailyResult =
+      null;
 
     this.syncDaily();
 
@@ -1057,6 +1150,14 @@ export class Game {
       subskills:
         structuredClone(
           this.state.subskills
+        ),
+
+      playerTitle:
+        this.playerTitle,
+
+      hasProfile:
+        Boolean(
+          this.state.profile?.name
         ),
 
       question:

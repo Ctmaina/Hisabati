@@ -1,9 +1,17 @@
 import "./styles/main.css";
 
 import { Game } from "./game.js";
-import { render } from "./ui.js";
 
-const root = document.querySelector("#app");
+import {
+  render,
+  update,
+  setHisabatiGame
+} from "./ui.js";
+
+const root =
+  document.querySelector(
+    "#app"
+  );
 
 if (!root) {
   throw new Error(
@@ -13,14 +21,38 @@ if (!root) {
 
 let game;
 
-function update(view) {
+function handleChange(view) {
   if (!game) {
     return;
   }
 
-  render(root, game);
+  /*
+   * IMPORTANT:
+   * Do NOT call render() here.
+   *
+   * render() creates the complete application
+   * again and would destroy the current screen,
+   * forms and navigation state.
+   *
+   * update() only refreshes the existing UI.
+   */
+
+  update(
+    root,
+    view
+  );
 }
 
-game = new Game(update);
+game =
+  new Game(
+    handleChange
+  );
 
-render(root, game);
+setHisabatiGame(
+  game
+);
+
+render(
+  root,
+  game
+);
